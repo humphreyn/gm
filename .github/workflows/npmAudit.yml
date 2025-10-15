@@ -17,11 +17,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - name: NPM Audit ${{ env.NODE_VERSION }}
+      - name: NPM Audit 22.20.0
         uses: actions/setup-node@v5
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: 22.20.0
           cache: "npm"
+      - run: npm i
       - uses: oke-py/npm-audit-action@3fa1b7654e7ff98cbb75c17f927c076a22991572 # v3.0.0
         with:
           audit_level: moderate
