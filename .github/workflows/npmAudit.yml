@@ -10,19 +10,30 @@ on:
 jobs:
   scan:
     name: NPM Audit packages
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       issues: write
       pull-requests: write
-    runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v5
-      - name: NPM Audit 22.20.0
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
           node-version: 22.20.0
           cache: "npm"
-      - run: npm i
+
+      - name: Install dependencies
+        run: npm i
+        env:
+          NODE_ENV: production
+          CI: true
       - uses: oke-py/npm-audit-action@3fa1b7654e7ff98cbb75c17f927c076a22991572 # v3.0.0
         with:
           audit_level: moderate
